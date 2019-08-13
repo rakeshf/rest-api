@@ -17,7 +17,9 @@
   "author": "Rakesh Falke",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "mongoose": "^5.6.8",
     "nodemon": "^1.19.1"
   }
 }
