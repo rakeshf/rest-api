@@ -11,10 +11,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/posts', postsRoute);
-app.use((req, res, next) => {
-    console.log('%s', req);
-    next();
-});
 
 mongoose.connect(process.env.DB_CONNECTION,
 { useNewUrlParser: true },
@@ -33,4 +29,4 @@ app.get('/', (req, res) => {
 });
 
 // Server listening at port 3000
-app.listen(4000);
+app.listen(3000);
