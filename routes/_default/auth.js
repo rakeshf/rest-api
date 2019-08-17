@@ -13,7 +13,7 @@ routes.post('/register', async (request, response) => {
     if(emailExist) return response.status(400).send('Email Exists');
 
     // HashPassword
-    const salt = await bcrypt.gentSalt(10);
+    const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(request.body.password, salt);
 
     const user = new User({
@@ -23,7 +23,7 @@ routes.post('/register', async (request, response) => {
     });
     try{
         const savedUser = await user.save();
-        response.send({user: _id});
+        response.send({user: user._id});
     }catch(err){
         response.status(400).send(err);
     }
