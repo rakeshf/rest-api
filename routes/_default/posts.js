@@ -1,6 +1,6 @@
 const express = require('express');
 const routes = express.Router();
-const Post = require('../models/Post');
+const Post = require('../../models/'+process.env.VERSION+'/Post');
 
 //Routes
 routes.get('/', async (request, response) => {
