@@ -15,7 +15,7 @@ const auth = new Authentication({ routes: authConfig });
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(auth.filter());
+//app.use(auth.filter());
 app.use('/api/'+process.env.VERSION+'/posts', postsRoute);
 app.use('/api/'+process.env.VERSION+'/user', authRoute);
 
