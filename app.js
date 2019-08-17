@@ -6,12 +6,25 @@ const postsRoute = require('./routes/'+process.env.VERSION+'/posts');
 const authRoute = require('./routes/'+process.env.VERSION+'/auth');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const authConfig = require('./auth-config');
+const fs = require('fs')
+
+const path = './helpers/'+process.env.VERSION+'/authentication.js';
+const Authentication = require('./helpers/'+process.env.VERSION+'/authentication');
+
+
+
+
+
 
 const app = express();
+const auth = new Authentication({ routes: authConfig });
 
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(auth.filter());
 app.use('/api/'+process.env.VERSION+'/posts', postsRoute);
 app.use('/api/'+process.env.VERSION+'/user', authRoute);
 
