@@ -14,14 +14,9 @@ const PostSchema = mongoose.Schema({
         enum : ['publish','blocked', 'un-publish'],
         default: 'un-publish'
     },
-    user_email: {
+    user_id: {
         type: String,
         require: true
-    },
-    source_id: {
-        type: String,
-        require: true,
-        default: 0
     },
     source_url: {
         type: String,

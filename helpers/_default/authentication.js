@@ -16,11 +16,11 @@ const getProtectedResource = (req, authConfig) => {
 };
 
 const checkToken = req => {
-  let authorization = req.get('auth-token');
-  if (!authorization) {
+  let token = req.header('auth-token');
+  if (!token) {
     throw new Error(401);
   }
-  return jwt.verify(token);
+  return jwt.verify(token, process.env.TOKEN_SECRET);
 };
 
 class Authentication {
@@ -30,20 +30,18 @@ class Authentication {
     filter() {
       return (req, res, next) => {
         try {
-          let shouldProtect = getProtectedResource(req, this.config.routes);
-  
+          let shouldProtect = getProtectedResource(req, this.config.routes);  
           if (shouldProtect) {
-            //let principal = checkToken(req);
-            //res.locals.principal = principal;
-            console.log('unouthorized required');
+            let principal = checkToken(req);
+            res.locals.principal = principal;
           }
           next();
         } catch (e) {
           console.log('unouthorized', e);
-          res.status(401).json({ error: 'not_authorized' }).end();
+          res.status(401).send({ error: 'not_authorized' }).end();
         }
       };
     }
   }
-  
+
   module.exports = Authentication;
