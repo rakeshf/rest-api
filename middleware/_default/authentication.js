@@ -33,7 +33,7 @@ class Authentication {
           let shouldProtect = getProtectedResource(req, this.config.routes);  
           if (shouldProtect) {
             let principal = checkToken(req);
-            res.locals.principal = principal;
+            res.user = principal;
           }
           next();
         } catch (e) {
@@ -44,4 +44,33 @@ class Authentication {
     }
   }
 
-  module.exports = Authentication;
+  module.exports.Authentication = Authentication;
+
+  const checkAPIkeys = (req, configApiKey) => {
+    let apiKey = req.header('api-key');
+    if (!apiKey) {
+      throw new Error(401);
+    }
+    if (apiKey != configApiKey) {
+      throw new Error(401);
+    }
+  };
+
+  class APIkeyValidation {
+    constructor(config) {
+      this.config = config;
+    }
+    filter() {
+      return (req, res, next) => {
+        try {
+          checkAPIkeys(req, this.config.apiKey);
+          next();
+        } catch (e) {
+          console.log('Invalid API Key', e);
+          res.status(401).send({ error: 'Invalid API Key' }).end();
+        }
+      };
+    }
+  }
+
+  module.exports.APIkeyValidation = APIkeyValidation;

@@ -7,14 +7,17 @@ const authRoute = require('./routes/'+process.env.VERSION+'/auth');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authConfig = require('./config/'+process.env.VERSION+'/auth-config');
-const Authentication = require('./helpers/'+process.env.VERSION+'/authentication');
+const { Authentication, APIkeyValidation } = require('./middleware/'+process.env.VERSION+'/authentication');
+
 const app = express();
 const auth = new Authentication({ routes: authConfig });
+const authApiKey = new APIkeyValidation({ apiKey: process.env.API_KEY });
 
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(authApiKey.filter());
 app.use(auth.filter());
 app.use('/api/'+process.env.VERSION+'/posts', postsRoute);
 app.use('/api/'+process.env.VERSION+'/user', authRoute);
