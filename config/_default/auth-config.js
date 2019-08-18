@@ -9,7 +9,7 @@ const methods = {
   module.exports.config = {
     protect: [
       {
-        path: '/api/'+process.env.VERSION+'/user',
+        path: '/api/'+process.env.VERSION+'/user/:user_id',
         methods: [methods.POST, methods.GET, methods.PUT],
         rols: ['user']
       },

@@ -4,7 +4,8 @@
   "description": "Rest api for testing",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "clean": "rm -rf node_modules && npm install && npm start"
   },
   "repository": {
     "type": "git",
