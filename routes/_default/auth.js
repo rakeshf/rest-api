@@ -1,9 +1,9 @@
 const express = require('express');
 const routes = express.Router();
-const UsersController = require('../../controllers/'+process.env.VERSION+'/UsersController');
+const users_controller = require('../../controllers/'+process.env.VERSION+'/UsersController');
 
-routes.post('/register', UsersController.userRegister);
+routes.post('/register', users_controller.userRegister);
 
-routes.post('/login', UsersController.userLogin);
+routes.post('/login', users_controller.userLogin);
 
 module.exports = routes;

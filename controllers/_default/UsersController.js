@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/'+process.env.VERSION+'/User');
 const { registerValidation, loginValidation } = require('../../helpers/'+process.env.VERSION+'/validate');
 
-module.exports = {
-  async userLogin(req, res) {
+exports.userLogin = async (req, res, next) => {
+  try {
     // Validate the user input
     const { error } = loginValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -20,9 +20,15 @@ module.exports = {
     // Create and assing token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send(token);
-  },
+  } catch(err) {
+    console.log(err); // up to you what to do with the error
+    next();
+  }
+};
 
-  async userRegister(req, res) {
+
+exports.userRegister = async (req, res, next) => {
+  try {
     // Validate the user input
     const { error } = registerValidation(req.body);
     if(error) return res.status(400).send();
@@ -46,5 +52,8 @@ module.exports = {
     }catch(err){
       res.status(400).send(err);
     }
+  } catch(err) {
+    console.log(err); // up to you what to do with the error
+    next();
   }
 };
