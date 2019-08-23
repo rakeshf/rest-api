@@ -17,7 +17,7 @@ const authApiKey = new APIkeyValidation({ apiKey: process.env.API_KEY });
 client = redis.createClient({
     port: 6379,
     host: 'SG-comments-24632.servers.mongodirector.com', 
-    password: process.env.'WQU3MDVjDMqqLx2FAXf6Uu6wqIsR3w9u'
+    password: process.env.REDIS_PASSWORD
 });
 client.on('connect', function() {
     console.log('Redis client connected');
