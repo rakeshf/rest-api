@@ -12,9 +12,10 @@ const redis = require('redis');
 const app = express();
 const auth = new Authentication({ routes: authConfig });
 const authApiKey = new APIkeyValidation({ apiKey: process.env.API_KEY });
+var mysql = require('mysql');
 
 // Caching
-client = redis.createClient({
+/*client = redis.createClient({
     port: 6379,
     host: 'SG-comments-24632.servers.mongodirector.com', 
     password: process.env.REDIS_PASSWORD
@@ -28,6 +29,17 @@ client.on('error', function (err) {
 
 client.set('framework', 'AngularJS', function(err, reply) {
     console.log(reply);
+});*/
+
+var con = mysql.createConnection({
+    host: "localhost", 
+    user: "root", 
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.DATABASE
+});
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Mysql Connected!");
 });
 
 //Middlewares
